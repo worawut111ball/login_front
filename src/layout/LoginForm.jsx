@@ -22,7 +22,7 @@ export default function LoginForm() {
       const rs = await axios.post('http://localhost:8000/auth/login', input)
       console.log(rs.data.token)
       localStorage.setItem('token', rs.data.token)
-      const rs1 = await axios.get('http://localhost:8000/auth/me', {
+      const rs1 = await axios.get('http://localhost:8000/auth/venues', {
         headers : { Authorization : `Bearer ${rs.data.token}` }
       })
       console.log(rs1.data)
@@ -34,7 +34,9 @@ export default function LoginForm() {
   }
 
   return (
-    <div className= "p-10 border w-full md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto rounded-lg mt-10 bg-gradient-to-r bg-red-200 shadow-md">
+    <div className='p-12 flex flex-col min-w-[491px] min-h-[822px] bg-[url("./images/bg.png")] bg-contain  justify-between'>
+    
+    <div className= "p-10 border w-full md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto rounded-lg mt-10 bg-gradient-to-r bg-gray-50/95 shadow-md">
   <div className="text-3xl mb-6 font-bold text-center text-blue-600">เข้าสู่ระบบ</div>
 
   <form className="flex flex-col gap-4" onSubmit={hdlSubmit}>
@@ -49,7 +51,7 @@ export default function LoginForm() {
   id="username" 
   className="grow" 
   name="username" 
-  placeholder="Username"  
+  placeholder=" | username"  
   value={input.username}
   onChange={hdlChange} />
 </label>
@@ -64,7 +66,7 @@ export default function LoginForm() {
   id="password"
    className="grow" 
    name="password"
-   placeholder="passwoed" 
+   placeholder=" | passwoed" 
    value={input.password}
    onChange={hdlChange} />
 </label>
@@ -79,6 +81,10 @@ export default function LoginForm() {
     </div>
   </form>
 </div>
+</div>
 
   );
 }
+
+
+

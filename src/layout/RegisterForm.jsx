@@ -38,7 +38,8 @@ export default function RegisterForm() {
   }
 
   return (
-    <div className="p-10 border w-full md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto rounded-lg mt-10  bg-red-200">
+    <div className='p-12 flex flex-col min-w-[600px] min-h-[900px] bg-[url("./images/bg.png")] bg-contain  justify-between'>
+    <div className="p-10 border w-full md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto rounded-lg mt-10  bg-gray-50/95">
     <div className="text-3xl mb-6 font-bold text-center text-blue-600">สมัครสมาชิก</div>
   
     <form className="flex flex-col gap-4" onSubmit={hdlSubmit}>
@@ -54,7 +55,7 @@ export default function RegisterForm() {
           id="username" 
           className="grow"
           name="name"
-          placeholder="name"
+          placeholder=" | name"
           value={input.name}
           onChange={hdlChange}
         />
@@ -69,7 +70,7 @@ export default function RegisterForm() {
          id="username" 
           className="grow" 
           name="username" 
-          placeholder="Username"
+          placeholder=" | username"
           onChange={hdlChange}  
           value={input.username}
            />
@@ -83,7 +84,7 @@ export default function RegisterForm() {
           type="password"
           className="grow"
           name="password"
-          placeholder="password"
+          placeholder=" | password"
           value={input.password}
           onChange={hdlChange}
         />
@@ -97,7 +98,7 @@ export default function RegisterForm() {
           type="password"
           className="grow"
           name="confirmPassword"
-          placeholder="confirm Password"
+          placeholder=" | confirm password"
           value={input.confirmPassword}
           onChange={hdlChange}
         />
@@ -111,7 +112,7 @@ export default function RegisterForm() {
           type="email"
           className="grow"
           name="email"
-          placeholder="email"
+          placeholder=" | email"
           value={input.email}
           onChange={hdlChange}
         />
@@ -124,7 +125,7 @@ export default function RegisterForm() {
           type="text"
           className="grow"
           name="phone"
-          placeholder="phone"
+          placeholder="  phone"
           value={input.phone}
           onChange={hdlChange}
         />
@@ -134,13 +135,12 @@ export default function RegisterForm() {
         <button type="submit" className="btn btn-info hover:bg-blue-700 text-sm font-semibold text-gray-600 mb-1">
            ยืนยัน 
         </button>
-        <button type="reset" className="btn px-4 btn-warning hover:bg-yellow-700 text-sm font-semibold text-gray-600 mb-1">
-          รีเซ็ต  
-        </button>
+        
       </div>
       
     </form>
     
+  </div>
   </div>
   
   );

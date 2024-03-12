@@ -10,7 +10,11 @@ export default {
     fontFamily: {
       sans: ['Krub', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+          "my-Pencils": "url(./images/cover.jpg)",
+      },
+  },
   },
   plugins: [require("daisyui")],
   daisyui: {
