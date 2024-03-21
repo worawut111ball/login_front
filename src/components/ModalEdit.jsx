@@ -102,6 +102,20 @@ export default function ModalEdit(props) {
               onChange={handleChange}
             />
           </label>
+          <label className="form-control w-full ">
+          <div className="label">
+            <span className="label-text">รูปร้าน</span>
+          </div>
+          <input
+            type="text"
+            accept=".jpg,.jpeg,.png"
+            placeholder="กรอกที่อยู่รูปภาพ .jpg"
+            className="input input-bordered w-full "
+            name="imageSrc"
+            value={input.imageSrc}
+            onChange={handleChange}
+          />
+        </label>
           <button type="submit" className="btn btn-primary">เเก้ไข</button>
           <button type="button" className="btn btn-secondary" onClick={closeModal}>
             ยกเลิก

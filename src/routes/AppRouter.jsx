@@ -3,16 +3,17 @@ import LoginForm from '../layout/LoginForm'
 import RegisterForm from '../layout/RegisterForm'
 import useAuth from '../hooks/useAuth'
 import Header from '../layout/Header'
-import Home from '../layout/Home'
 import Venue from '../layout/Venue'
 import Table from '../layout/Table'
-import Staff from '../layout/Staff'
 import Reservation from '../layout/Reservation'
 import Footer from '../layout/Footer'
 import Adminmenu from '../admin/adminmenu'
 import Newvenue from '../admin/newvenue'
 import Setvenue from '../admin/setvenue'
 import Iduser from '../admin/iduser'
+import TableAdmin from '../admin/table'
+import Servation from '../admin/reservation'
+
 
 
 const guestRouter = createBrowserRouter([
@@ -38,9 +39,8 @@ const userRouter = createBrowserRouter([
       <Footer/>
     </>,
     children : [
-      { index: true, element: <Home /> },
+      { index: true, element: <Venue /> },
       { path: '/venue', element: <Venue />},
-      { path: '/staff', element: <Staff />},
       { path: '/table', element: <Table />},
       { path: '/reservation', element: <Reservation />},
       
@@ -60,8 +60,11 @@ const adminRouter = createBrowserRouter([
     children: [
       { index: true, element: <Newvenue /> },
       { path: '/newvenue', element: <Newvenue /> },
+      { path: '/reservation', element: <Servation /> },
       { path: '/setvenue', element: <Setvenue /> },
       { path: '/iduser', element: <Iduser /> },
+      { path: '/tableadmin', element: <TableAdmin /> },
+     
 
    
     ]

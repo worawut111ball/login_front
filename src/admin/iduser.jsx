@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import ModalEditUser from "../components/ModalEditUser"
+import IdCard from "../components/idCard"
 
-export default function Adminuser(props) {
+
+export default function Iduser() {
   const [users, setUsers] = useState([]);
+  const [editIdx, setEditIdx] = useState(-1)
+  const [trigger, setTrigger] = useState(false)
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -13,48 +18,37 @@ export default function Adminuser(props) {
         });
         setUsers(response.data.users);
       } catch (error) {
-        console.error(' error users:', error);
+        console.error('Error fetching users:', error);
       }
     };
 
     fetchUsers();
-  }, []);
+  }, [trigger]);
 
-  const handleDelete = async (id) => {
-  
-    try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:8000/admin/id${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      alert('Delete successful');
-      // You may want to fetch users again or update the state accordingly
-    } catch (err) {
-      console.error('Error deleting user:',err);
-    }
-  };
+  const openModal = (id) => {
+    let idx = users.findIndex( el=> el.id === id)
+    setEditIdx(idx)
+    document.getElementById("my_modal_2").showModal()
+  }
 
-   return (
-    <>
-      <div className="p-9 flex flex-wrap gap-4">
-        {users.map((user) => (
-          <div key={user.id} className="card w-5/6 bg-gray-300 shadow-xl mx-auto cursor-pointer">
-            <div className="card-body rounded-lg hover:bg-blue-500">
-              <div className="flex justify-between">
-                <h2 className="card-title">Name: {user.name}</h2>
-                {/* <div className="badge badge-secondary" onClick={() => handleDelete(user.id)}>
-                  Delete
-                </div> */}
-              </div>
-              <p>Username: {user.username}</p>
-              <p>Password: {user.password}</p>
-              <p>Email: {user.email ? user.email : 'No email provided'}</p>
-              <p>Phone: {user.phone ? user.phone : 'No Phone provided'}</p>
-              <p>Role: {user.role}</p>
-            </div>
-          </div>
+  const closeModal = () => {
+    document.getElementById("my_modal_2").close()
+  }
+
+  return (
+    
+    <div className="p-12  border w-full md:w-3/4 lg:w-3/4 xl:w-3/4 mx-auto rounded-lg mt-10 bg-gradient-to-r bg-gray-300  shadow-md flex flex-col gap-4">
+      <div className="text-3xl mb-6 font-bold text-center text-blue-600">เเสดง,เเก้ไข,ลบ ข้อมูลID</div>
+      
+      
+      <ModalEditUser el={users[editIdx]} closeModal={closeModal} setTrigger={setTrigger}/>
+      <div className="flex flex-col gap-4 ">
+        {users.map((el) => (
+          <IdCard key={el.id} el={el} openModal={openModal} setTrigger={setTrigger}/>
         ))}
       </div>
-    </>
+      
+    </div>
+   
   );
 }

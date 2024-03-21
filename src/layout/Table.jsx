@@ -1,47 +1,49 @@
-// TableSelection.js
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
-const Table = () => {
-  const [selectedTable, setSelectedTable] = useState(null);
 
-  const handleTableSelect = (tableNumber) => {
-    setSelectedTable(tableNumber);
-  };
 
-  const tables = [
-    { number: 1, capacity: 4,  },
-    { number: 2, capacity: 6, },
-    { number: 3, capacity: 2, },
-    { number: 4, capacity: 2,  },
-    { number: 5, capacity: 2,  },
-    { number: 6, capacity: 2,  },
-    { number: 7, capacity: 2,  },
-    { number: 8, capacity: 2,  },
-    { number: 9, capacity: 2,  },
-    { number: 10, capacity: 2,  },
-   
-    // เพิ่มโต๊ะตามต้องการ
-  ];
+  export default function Table() {
+    const [tables, setTables] = useState([]);
+  
+  
+    useEffect(() => {
+      const fetchTables = async () => {
+        try {
+          let token = localStorage.getItem("token");
+          const response = await axios.get('http://localhost:8000/venues/tableAll', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setTables(response.data.tables);
+        } catch (error) {
+          console.error(' error users:', error);
+        }
+      };
+  
+      fetchTables();
+    }, []);
+  
 
+  
   return (
     <div className="container mx-auto p-8">
         
-      <h1 className='text-3xl font-bold text-center text-blue-600 mb-8'>เลือกโต๊ะ</h1>
+      <span className='text-3xl font-bold text-center text-blue-600 mb-8'></span>
       <form className=" md:w-3/4 lg:w-3/4 xl:w-3/4 mx-auto rounded-lg bg-gray-50/95 shadow-md p-4 ">
 
       <div className='p-4 flex flex-wrap justify-between'>
         {tables.map((table) => (
           <Link to="/reservation" 
-            key={table.number}
-            onClick={() => handleTableSelect(table.number)}
+            key={table.tableNumber}
+            onClick={() => table(table.tableNumber)}
             className={`card w-40 bg-green-700 shadow-xl mb-24  text-center   ${
-              selectedTable === table.number ? 'bg-green-700' : 'hover:bg-red-700'
+              table === table.tableNumber ? 'bg-green-700' : 'hover:bg-red-700'
             }`}
           >
-            <p >โต๊ะที่ {table.number}</p>
-            <p>ความจุ: {table.capacity} คน</p>
+            <p className=' font-bold' >โต๊ะที่ {table.tableNumber}</p>
+            <p className=' font-bold' >จำนวนที่นั่ง {table.seats}</p>
+            
           </Link>
           
         ))}
@@ -50,6 +52,5 @@ const Table = () => {
 
     </div>
   );
-};
+}
 
-export default Table;

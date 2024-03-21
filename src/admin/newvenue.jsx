@@ -9,6 +9,7 @@ export default function Newvenue() {
     name: "",
     address: "",
     phone: "",
+    imageSrc: "",
   });
   
 
@@ -20,7 +21,7 @@ export default function Newvenue() {
     try {
       e.preventDefault();
 
-      if (!input.name || !input.address || !input.phone) {
+      if (!input.name || !input.address || !input.phone || !input.imageSrc) {
         alert("กรอกข้อมูลให้ครบ");
         return;
       }
@@ -80,6 +81,20 @@ return (  <>
             className="input input-bordered w-full "
             name="phone"
             value={input.phone}
+            onChange={hdlChange}
+          />
+        </label>
+        <label className="form-control w-full ">
+          <div className="label">
+            <span className="label-text">รูปร้าน</span>
+          </div>
+          <input
+            type="text"
+            accept=".jpg,.jpeg,.png"
+            placeholder="กรอกที่อยู่รูปภาพ .jpg"
+            className="input input-bordered w-full "
+            name="imageSrc"
+            value={input.imageSrc}
             onChange={hdlChange}
           />
         </label>

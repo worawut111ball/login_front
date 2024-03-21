@@ -7,9 +7,8 @@ const guestNav = [
 ];
 
 const userNav = [
-  { to: "/", text: "หน้าหลัก" },
-  { to: "/venue", text: "เลือกร้าน" },
-  { to: "/staff", text: "ผู้ดูเเล" },
+  { to: "/venue", text: "เลือกร้าน" }
+ 
   
 ];
 export default function Header() {

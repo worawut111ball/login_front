@@ -8,7 +8,11 @@ const guestNav = [
   
   const userNav = [
     { to: "/newvenue", text: "CRUD ร้าน" },
+    { to: "/tableadmin", text: "CRUD โต๊ะ" },
     { to: "/Iduser", text: "ID USER/ADMIN" },
+    { to: "/reservation", text: "ข้อมูลการจอง" },
+ 
+ 
 
     
    

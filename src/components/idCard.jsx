@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 
-export default function VenueCard(props) {
+export default function IdCard(props) {
   const { el, openModal, setTrigger } = props;
 
   const statusColor =
@@ -22,7 +22,7 @@ export default function VenueCard(props) {
     if (isConfirmed) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:8000/admin/venue${el.id}`, {
+        await axios.delete(`http://localhost:8000/admin/iduser${el.id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -35,29 +35,21 @@ export default function VenueCard(props) {
   };
 
   return (
-    <div
-      className={`card w-5/6 ${statusColor} shadow-xl mx-auto cursor-pointer
-      active:shadow-none active:translate-x-2 active:translate-y-1`}
-      onClick={() => openModal(el.id)}
-    >
+    <div className={`card w-5/6 ${statusColor} shadow-xl mx-auto cursor-pointer active:shadow-none active:translate-x-2 active:translate-y-1`} onClick={() => openModal(el.id)}>
       <div className="card-body rounded-lg hover:bg-blue-500">
         <div className="flex justify-between">
-          <h2 className="card-title">{el.name}</h2>
-          <figure>
-            <img
-              src={el.imageSrc}
-              style={{ maxWidth: "200px", maxHeight: "200px" }}
-            />
-          </figure>
+          <h2 className="card-title">Name: {el.name}</h2>
           <div className="badge badge-secondary" onClick={handleDelete}>
             ลบข้อมูล
           </div>
         </div>
         <div className="flex">
-          <p className="">{el.address}</p>
-          <p className="text-right">เบอร์โทรศัพท์: {el.phone}</p>
+          <p className="card-title">User: {el.username}</p>
+          <p>Email: {el.email ? el.email : 'No email provided'}</p>
+          <p>Phone: {el.phone ? el.phone : 'No Phone provided'}</p>
+          <p className="text-right">Role: {el.role}</p>
         </div>
       </div>
     </div>
   );
-}
+  }  

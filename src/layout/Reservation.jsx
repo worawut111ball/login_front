@@ -1,50 +1,54 @@
 import axios from "axios";
-import {useEffect, useState } from "react";
+import { useState } from "react";
 
-const Reservation = () => {
+// นิยาม Enum TABLESTATUS
+const TABLESTATUS = {
+  OFF: "OFF",
+  OPEN: "OPEN"
+};
+
+export default function Reservation() {
   const [input, setInput] = useState({
-    
-    dateTime : new Date().toISOString().split('T')[0],
-    
+    userId: "",
+    tableId: "",
+    venueId: "",
+    dateTime: "",
+    numberCustomers: "",
+    status: TABLESTATUS.OPEN // กำหนดค่าเริ่มต้นเป็น OPEN
   });
-  const [status, setStatus] = useState([])
-  
-  useEffect( ()=> {
-    let allStatus = JSON.parse(localStorage.getItem('status'))
-    if(allStatus) {
-      return setStatus(allStatus)
-    }
-    const run = async () => {
-      const token = localStorage.getItem('token')
-      const rs = await axios.get('http://localhost:8000/auth/reservation', {
-        headers : { Authorization : `Bearer ${token}`}
-      })
-      localStorage.setItem('status', JSON.stringify(rs.data.status))
-      setStatus(rs.data.status)
-    }
-    run()
-  }, [] )
+
   const hdlChange = (e) => {
-    setInput((prv) => ({ ...prv, [e.target.name]: e.target.value }));
+    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  
 
   const hdlSubmit = async (e) => {
     try {
       e.preventDefault();
 
-      const rs = await axios.post(
-        "http://localhost:8000/auth/reservation",
-        input
-      );
-      console.log(rs);
-      if (rs.status === 200) {
-        alert("Register Successful");
+      if (!input.userId || !input.tableId || !input.venueId || !input.numberCustomers) {
+        alert("กรอกข้อมูลให้ครบ");
+        return;
       }
+      const token = localStorage.getItem("token");
+      const dateTime = new Date(input.dateTime).toISOString();
+      const rs = await axios.post("http://localhost:8000/venues/reservation", {
+        userId: parseInt(input.userId),
+        tableId: parseInt(input.tableId),
+        venueId: parseInt(input.venueId),
+        dateTime: dateTime,
+        numberCustomers: parseInt(input.numberCustomers),
+        status: input.status,
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      alert("Create new OK");
+      window.location.reload();
     } catch (err) {
-      console.log(err.message);
+      alert(err.message);
     }
   };
+
   return (
     <div className="p-10 border w-full md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto rounded-lg mt-10  bg-gray-50/95">
       <h1 className="text-3xl mb-6 font-bold text-center text-blue-600">
@@ -52,12 +56,12 @@ const Reservation = () => {
       </h1>
       <form className="flex flex-col gap-4" onSubmit={hdlSubmit}>
         <span className="text-sm font-semibold text-gray-600 mb-1">
-          ชื่อ-นามสกุล
+        userId
         </span>
         <label className="input input-bordered flex items-center gap-2 text-sm font-semibold text-gray-600 mb-1">
           
           <input
-            type="text"
+            type="number"
             id="userId"
             className="grow"
             name="userId"
@@ -69,31 +73,31 @@ const Reservation = () => {
         
 
         <span className="text-sm font-semibold text-gray-600 mb-1">
-          เลขโต๊ะ
+        เลขโต๊ะ
         </span>
         <label className="input input-bordered flex items-center gap-2 text-sm font-semibold text-gray-600 mb-1">
           
           <input
-            type="text"
+            type="number"
             id="tableId"
             className="grow"
             name="tableId"
-            placeholder=" | tableId"
+            placeholder=" | โต๊ะที่"
             value={input.tableId}
             onChange={hdlChange}
           />
         </label>
 
         <span className="text-sm font-semibold text-gray-600 mb-1">
-          ร้าน
+       ร้าน
         </span>
         <label className="input input-bordered flex items-center gap-2 text-sm font-semibold text-gray-600 mb-1">
           <input
-            type="text"
+            type="number"
             id="venueId"
             className="grow"
             name="venueId"
-            placeholder=" | venueId"
+            placeholder=" | ร้านที่"
             value={input.venueId}
             onChange={hdlChange}
           />
@@ -118,9 +122,9 @@ const Reservation = () => {
         <label className="input input-bordered flex items-center gap-2 text-sm font-semibold text-gray-600 mb-1">
           <input
             type="number"
-            id="username"
+            id="numberCustomers"
             className="grow"
-            name="name"
+            name="numberCustomers"
             placeholder=" | tableId"
             value={input.numberCustomers}
             onChange={hdlChange}
@@ -130,15 +134,15 @@ const Reservation = () => {
         <span className="text-sm font-semibold text-gray-600 mb-1">
           สถานะ
         </span>
-        <select className="select select-bordered flex items-center gap-2 text-sm font-semibold text-gray-600 mb-1"
-            name = "status"
-            value = {input.status}
-            onChange={hdlChange}
-          >
-            { status.map( el => (
-              <option key={el} value={el}>{el}</option>
-            ))}
-          </select>
+        <select
+                className="input input-bordered w-full"
+                name="status"
+                value={input.status}
+                onChange={hdlChange}
+              >
+                <option value={TABLESTATUS.OFF}>OFF</option>
+                <option value={TABLESTATUS.OPEN}>OPEN</option>
+              </select>
         
 
         <button
@@ -150,6 +154,5 @@ const Reservation = () => {
       </form>
     </div>
   );
-};
+}
 
-export default Reservation;
